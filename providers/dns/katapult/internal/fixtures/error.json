@@ -1,5 +1,7 @@
 {
-  "code": "missing_api_token",
-  "description": "string",
-  "detail": {}
+  "error": {
+    "code": "dns_record_not_found",
+    "description": "No DNS record was found matching any of the criteria provided in the arguments",
+    "detail": {}
+  }
 }

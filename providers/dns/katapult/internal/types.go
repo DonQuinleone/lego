@@ -5,6 +5,10 @@ import (
 	"fmt"
 )
 
+type APIErrorResponse struct {
+	Error *APIError `json:"error"`
+}
+
 type APIError struct {
 	Code        string          `json:"code"`
 	Description string          `json:"description"`

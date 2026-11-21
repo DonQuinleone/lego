@@ -64,7 +64,7 @@ func (c *Client) CreateTXTRecord(ctx context.Context, zone string, record Record
 }
 
 func (c *Client) DeleteRecord(ctx context.Context, recordID string) error {
-	endpoint := c.BaseURL.JoinPath("dns_zones", "dns_record")
+	endpoint := c.BaseURL.JoinPath("dns_records", "dns_record")
 
 	payload := map[string]any{
 		"dns_record": map[string]any{
@@ -140,12 +140,12 @@ func newJSONRequest(ctx context.Context, method string, endpoint *url.URL, paylo
 func parseError(req *http.Request, resp *http.Response) error {
 	raw, _ := io.ReadAll(resp.Body)
 
-	errAPI := new(APIError)
+	errAPI := new(APIErrorResponse)
 
 	err := json.Unmarshal(raw, errAPI)
-	if err != nil {
+	if err != nil || errAPI.Error == nil {
 		return errutils.NewUnexpectedStatusCodeError(req, resp.StatusCode, raw)
 	}
 
-	return errAPI
+	return errAPI.Error
 }

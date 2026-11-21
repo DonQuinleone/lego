@@ -69,7 +69,7 @@ func TestClient_CreateTXTRecord(t *testing.T) {
 
 func TestClient_DeleteRecord(t *testing.T) {
 	client := mockBuilder().
-		Route("DELETE /dns_zones/dns_record",
+		Route("DELETE /dns_records/dns_record",
 			servermock.ResponseFromFixture("delete_record.json"),
 			servermock.CheckRequestJSONBodyFromFixture("delete_record-request.json"),
 		).
@@ -81,12 +81,12 @@ func TestClient_DeleteRecord(t *testing.T) {
 
 func TestClient_DeleteRecord_error(t *testing.T) {
 	client := mockBuilder().
-		Route("DELETE /dns_zones/dns_record",
+		Route("DELETE /dns_records/dns_record",
 			servermock.ResponseFromFixture("error.json").
 				WithStatusCode(http.StatusBadRequest),
 		).
 		Build(t)
 
 	err := client.DeleteRecord(t.Context(), "abc123")
-	require.EqualError(t, err, "missing_api_token: string: {}")
+	require.EqualError(t, err, "dns_record_not_found: No DNS record was found matching any of the criteria provided in the arguments: {}")
 }
